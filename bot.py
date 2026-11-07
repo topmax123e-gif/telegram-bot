@@ -35,7 +35,7 @@ async def init_db():
 def main_kb() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="📝 Посмотреть список желаний", callback_data="list_tasks")],
-        [InlineKeyboardButton(text="➕ Добавить желание/задачу", callback_data="add_task")],
+        [InlineKeyboardButton(text="➕ Добавить желание/напоминание", callback_data="add_task")],
     ])
 
 
@@ -43,8 +43,8 @@ def main_kb() -> InlineKeyboardMarkup:
 async def cmd_start(message: Message, state: FSMContext):
     await state.clear()
     await message.answer(
-        "Привет! ❤️ Это бот для заметок и желаний для Ани.\n\n"
-        "Нажми «Добавить желание», чтобы записать новую задачу.",
+        "Привет! ❤️ Это бот для заметок и напоминаний для Ани и возможно для Максима:).\n\n"
+        "Нажми «Добавить желание\напоминание», чтобы записать.",
         reply_markup=main_kb(),
     )
 
@@ -68,7 +68,7 @@ async def show_tasks(callback: CallbackQuery):
     if not rows:
         await callback.message.answer("Список пока пуст! Добавь первое желание.", reply_markup=main_kb())
     else:
-        lines = ["<b>📋 Твой список желаний и задач:</b>\n"]
+        lines = ["<b>📋 Твой список желаний и напоминаний:</b>\n"]
         for i, (user_name, text) in enumerate(rows, 1):
             lines.append(f"{i}. {html.escape(text)} <i>({html.escape(user_name)})</i>")
         await callback.message.answer("\n".join(lines), parse_mode="HTML", reply_markup=main_kb())
@@ -115,7 +115,7 @@ async def main():
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
     )
     await init_db()
-    logging.info("Бот успешно запущен!")
+    logging.info("Бот газ!")
     try:
         await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
     finally:
@@ -126,4 +126,4 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
-        logging.info("Бот остановлен.")
+        logging.info("Бот тормоз.")
